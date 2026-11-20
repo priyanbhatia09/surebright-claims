@@ -72,6 +72,21 @@ export default async function AdminClaimDetail({ params }: { params: Promise<{ i
               <p className="text-sm text-[#525252] leading-relaxed bg-[#f5f5ee] p-4 rounded-xl">{claim.issueDescription}</p>
             </div>
 
+            {/* Photos */}
+            {claim.photos && claim.photos.length > 0 && (
+              <div className="bg-white rounded-2xl border border-[#e5e7eb] p-6 shadow-sm">
+                <h3 className="font-semibold text-[#151515] mb-3">Uploaded Photos ({claim.photos.length})</h3>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {claim.photos.map((photo, idx) => (
+                    <div key={idx} className="rounded-xl overflow-hidden border border-[#e5e7eb] aspect-square bg-[#f5f5ee]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={photo} alt={`Claim photo ${idx + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Override */}
             <OverridePanel claim={claim} />
           </div>

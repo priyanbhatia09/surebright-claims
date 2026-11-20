@@ -5,7 +5,7 @@ import { analyzeClaimWithAI } from "@/lib/ai";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { customerName, customerEmail, orderNumber, productName, productCategory, issueDescription } = body;
+    const { customerName, customerEmail, orderNumber, productName, productCategory, issueDescription, photos } = body;
 
     if (!customerName || !customerEmail || !orderNumber || !productName || !productCategory || !issueDescription) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       productName,
       productCategory,
       issueDescription,
-      photos: [],
+      photos: Array.isArray(photos) ? photos : [],
     });
 
     // Kick off AI adjudication immediately

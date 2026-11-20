@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { Upload, ChevronRight, Package, AlertCircle, Loader2 } from "lucide-react";
+import { Upload, ChevronRight, Package, AlertCircle, Loader2, X, Image as ImageIcon } from "lucide-react";
 
 const CATEGORIES = [
   "Electronics", "Home Appliances", "Furniture", "Sporting Goods",
@@ -14,9 +14,11 @@ const STEPS = ["Product Info", "Issue Details", "Review & Submit"];
 
 export default function NewClaimPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
 
   const [form, setForm] = useState({
     customerName: "",
@@ -29,6 +31,36 @@ export default function NewClaimPage() {
   });
 
   const set = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const remainingSlots = Math.max(0, 5 - form.photos.length);
+    if (remainingSlots === 0) return;
+
+    Array.from(files).slice(0, remainingSlots).forEach((file) => {
+      if (!file.type.startsWith("image/")) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result && typeof e.target.result === "string") {
+          setForm((prev) => {
+            if (prev.photos.length >= 5) return prev;
+            return {
+              ...prev,
+              photos: [...prev.photos, e.target!.result as string],
+            };
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removePhoto = (index: number) => {
+    setForm((prev) => ({
+      ...prev,
+      photos: prev.photos.filter((_, i) => i !== index),
+    }));
+  };
 
   const isStep0Valid = form.customerName && form.customerEmail && form.orderNumber && form.productName && form.productCategory;
   const isStep1Valid = form.issueDescription.length >= 20;
@@ -168,7 +200,7 @@ export default function NewClaimPage() {
                   What happened? *
                 </label>
                 <textarea
-                  rows={6}
+                  rows={5}
                   className="w-full px-4 py-3 rounded-xl border border-[#e5e7eb] text-sm focus:outline-none focus:ring-2 focus:ring-[#0558ff]/30 focus:border-[#0558ff] transition resize-none leading-relaxed"
                   placeholder="Describe what happened in as much detail as possible. When did it occur? Was there any physical impact, liquid exposure, or power event? What have you already tried?"
                   value={form.issueDescription}
@@ -182,16 +214,74 @@ export default function NewClaimPage() {
                 </div>
               </div>
 
-              {/* Photo Upload (UI only) */}
+              {/* Functional Photo Upload */}
               <div>
-                <label className="block text-xs font-semibold text-[#525252] uppercase tracking-wide mb-1.5">
-                  Photos (optional — helps AI accuracy)
-                </label>
-                <div className="border-2 border-dashed border-[#e5e7eb] rounded-xl p-8 text-center hover:border-[#0558ff] hover:bg-[#eff4ff]/30 transition-colors cursor-pointer">
-                  <Upload className="w-8 h-8 text-[#9b9b9b] mx-auto mb-2" />
-                  <p className="text-sm text-[#525252] font-medium">Click to upload photos</p>
-                  <p className="text-xs text-[#9b9b9b] mt-1">PNG, JPG up to 10MB each</p>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-semibold text-[#525252] uppercase tracking-wide">
+                    Photos (optional — helps AI accuracy)
+                  </label>
+                  <span className="text-xs text-[#9b9b9b]">{form.photos.length}/5 uploaded</span>
                 </div>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  multiple
+                  onChange={(e) => {
+                    handleFiles(e.target.files);
+                    if (fileInputRef.current) fileInputRef.current.value = "";
+                  }}
+                  className="hidden"
+                />
+
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={() => setIsDragging(false)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setIsDragging(false);
+                    handleFiles(e.dataTransfer.files);
+                  }}
+                  className={`border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer select-none ${
+                    isDragging
+                      ? "border-[#0558ff] bg-[#eff4ff]"
+                      : "border-[#0558ff] hover:bg-[#eff4ff]/30 bg-[#eff4ff]/10"
+                  }`}
+                >
+                  <Upload className={`w-8 h-8 mx-auto mb-2 ${isDragging ? "text-[#0558ff]" : "text-[#0558ff]"}`} />
+                  <p className="text-sm text-[#151515] font-semibold">
+                    {isDragging ? "Drop your photos here" : "Click to select or drag & drop photos"}
+                  </p>
+                  <p className="text-xs text-[#737373] mt-1">PNG, JPG, WEBP (up to 5 images)</p>
+                </div>
+
+                {/* Previews */}
+                {form.photos.length > 0 && (
+                  <div className="mt-3 grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+                    {form.photos.map((photo, i) => (
+                      <div key={i} className="relative group rounded-xl overflow-hidden border border-[#e5e7eb] aspect-square bg-[#f5f5ee] shadow-xs">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={photo} alt={`Upload ${i + 1}`} className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removePhoto(i);
+                          }}
+                          className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center text-xs transition"
+                          title="Remove photo"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* AI tip */}
@@ -199,7 +289,7 @@ export default function NewClaimPage() {
                 <span className="text-lg">🤖</span>
                 <div>
                   <p className="font-semibold">AI Tip</p>
-                  <p className="text-[#525252] mt-0.5">Our AI will analyze your description against your warranty policy. Include when it happened, any preceding events (drop, spill, power outage), and what you've already tried.</p>
+                  <p className="text-[#525252] mt-0.5">Our AI will analyze your description and photos against your warranty policy to verify damage patterns and speed up approval.</p>
                 </div>
               </div>
             </div>
@@ -232,6 +322,24 @@ export default function NewClaimPage() {
                 <p className="text-sm text-[#737373] mb-2">Issue Description</p>
                 <p className="text-sm text-[#151515] bg-[#f5f5ee] p-4 rounded-xl leading-relaxed">{form.issueDescription}</p>
               </div>
+
+              {/* Attached Photos Review */}
+              {form.photos.length > 0 && (
+                <div>
+                  <p className="text-sm text-[#737373] mb-2 flex items-center gap-1.5">
+                    <ImageIcon className="w-4 h-4 text-[#0558ff]" />
+                    Attached Photos ({form.photos.length})
+                  </p>
+                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5">
+                    {form.photos.map((photo, i) => (
+                      <div key={i} className="rounded-lg overflow-hidden border border-[#e5e7eb] aspect-square bg-[#f5f5ee]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={photo} alt={`Attached ${i + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-[#dc2626] flex gap-2">
