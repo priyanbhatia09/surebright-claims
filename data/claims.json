@@ -1,0 +1,213 @@
+[
+  {
+    "customerName": "Priyan Bhatia",
+    "customerEmail": "priyan@example.com",
+    "orderNumber": "SB-ORD-9999",
+    "productName": "Sony WH-1000XM5 Headphones",
+    "productCategory": "Electronics",
+    "issueDescription": "The right ear cup suddenly stopped producing audio after 4 months of normal indoor use. No drops or water damage. Tested with multiple Bluetooth devices and auxiliary cable.",
+    "photos": [],
+    "id": "CLM-2024-005",
+    "createdAt": "2026-11-20T04:03:37.416Z",
+    "claimType": "liquid_damage",
+    "severity": "high",
+    "status": "escalated",
+    "aiDecision": {
+      "claimType": "liquid_damage",
+      "severity": "high",
+      "recommendedAction": "escalate",
+      "confidence": 0.68,
+      "reasoning": "Liquid damage is covered under Premium tier policies only. Coverage determination requires verification of the customer's warranty tier before proceeding with adjudication.",
+      "policyReference": "Section 5.2 — Liquid Damage: Covered for Premium tier customers only. Tier verification required.",
+      "redFlags": [
+        "Coverage tier must be verified before decision"
+      ],
+      "decidedAt": "2026-11-20T04:03:38.617Z"
+    },
+    "humanOverride": null,
+    "auditTrail": [
+      {
+        "timestamp": "2026-11-20T04:03:37.416Z",
+        "actor": "customer",
+        "action": "Claim Submitted",
+        "details": "Customer submitted claim for Sony WH-1000XM5 Headphones (Electronics)"
+      },
+      {
+        "timestamp": "2026-11-20T04:03:38.617Z",
+        "actor": "ai",
+        "action": "AI Classification",
+        "details": "Classified as liquid damage, Severity: high, Confidence: 68%"
+      },
+      {
+        "timestamp": "2026-11-20T04:03:38.617Z",
+        "actor": "ai",
+        "action": "AI Decision: ESCALATE",
+        "details": "Confidence 68%. Section 5.2 — Liquid Damage: Covered for Premium tier customers only. Tier verification required.. 1 red flag(s) detected."
+      }
+    ]
+  },
+  {
+    "id": "CLM-2024-001",
+    "createdAt": "2024-11-18T09:30:00Z",
+    "customerName": "Arjun Sharma",
+    "customerEmail": "arjun@example.com",
+    "orderNumber": "SB-ORD-88821",
+    "productName": "Samsung 65\" QLED TV",
+    "productCategory": "Electronics",
+    "issueDescription": "Screen has a large crack after delivery. TV was placed on a stand and the screen cracked overnight without any physical impact from my side.",
+    "claimType": "shipping_damage",
+    "severity": "high",
+    "status": "approved",
+    "photos": [],
+    "aiDecision": {
+      "recommendedAction": "approve",
+      "confidence": 0.91,
+      "claimType": "Shipping Damage",
+      "severity": "high",
+      "reasoning": "Customer describes crack appearing post-delivery without physical impact. This pattern is consistent with internal shipping stress fractures common in large-panel displays. No red flags for intentional damage detected. Product is within 30-day shipping protection window.",
+      "policyReference": "Section 3.2 — Shipping Damage Coverage: Structural damage occurring within 30 days of delivery qualifies for replacement.",
+      "redFlags": [],
+      "decidedAt": "2024-11-18T09:35:12Z"
+    },
+    "humanOverride": null,
+    "auditTrail": [
+      {
+        "timestamp": "2024-11-18T09:30:00Z",
+        "actor": "customer",
+        "action": "Claim Submitted",
+        "details": "Customer submitted shipping damage claim for Samsung 65\" QLED TV"
+      },
+      {
+        "timestamp": "2024-11-18T09:35:12Z",
+        "actor": "ai",
+        "action": "AI Classification",
+        "details": "Classified as Shipping Damage, Severity: High, Confidence: 91%"
+      },
+      {
+        "timestamp": "2024-11-18T09:35:14Z",
+        "actor": "ai",
+        "action": "AI Decision: APPROVE",
+        "details": "Confidence 91%. Policy: Section 3.2 Shipping Damage Coverage. No red flags."
+      }
+    ]
+  },
+  {
+    "id": "CLM-2024-002",
+    "createdAt": "2024-11-17T14:20:00Z",
+    "customerName": "Priya Nair",
+    "customerEmail": "priya@example.com",
+    "orderNumber": "SB-ORD-77432",
+    "productName": "Dyson V15 Detect Vacuum",
+    "productCategory": "Home Appliances",
+    "issueDescription": "Vacuum stopped working completely after 8 months of normal use. No suction at all. Tried resetting and cleaning filter multiple times. Nothing works.",
+    "claimType": "functional_failure",
+    "severity": "medium",
+    "status": "escalated",
+    "photos": [],
+    "aiDecision": {
+      "recommendedAction": "escalate",
+      "confidence": 0.62,
+      "claimType": "Functional Failure",
+      "severity": "medium",
+      "reasoning": "Motor failure at 8 months is within extended warranty window. However, the claim lacks photographic evidence and the issue could indicate filter blockage (not covered) rather than motor failure (covered). Confidence below 70% threshold — escalating to human review.",
+      "policyReference": "Section 2.2 — Mechanical Failure: Motor and electrical failures covered after manufacturer warranty expiry. Requires diagnostic confirmation.",
+      "redFlags": [
+        "No photographic evidence provided",
+        "Issue could be user-serviceable filter blockage"
+      ],
+      "decidedAt": "2024-11-17T14:24:33Z"
+    },
+    "humanOverride": null,
+    "auditTrail": [
+      {
+        "timestamp": "2024-11-17T14:20:00Z",
+        "actor": "customer",
+        "action": "Claim Submitted",
+        "details": "Customer submitted functional failure claim for Dyson V15 Detect"
+      },
+      {
+        "timestamp": "2024-11-17T14:24:33Z",
+        "actor": "ai",
+        "action": "AI Classification",
+        "details": "Classified as Functional Failure, Severity: Medium, Confidence: 62%"
+      },
+      {
+        "timestamp": "2024-11-17T14:24:35Z",
+        "actor": "ai",
+        "action": "AI Decision: ESCALATE",
+        "details": "Confidence 62% — below 70% threshold. Escalating for human review due to 2 red flags."
+      }
+    ]
+  },
+  {
+    "id": "CLM-2024-003",
+    "createdAt": "2024-11-16T11:05:00Z",
+    "customerName": "Rahul Mehta",
+    "customerEmail": "rahul@example.com",
+    "orderNumber": "SB-ORD-65109",
+    "productName": "Apple MacBook Pro 14\"",
+    "productCategory": "Electronics",
+    "issueDescription": "Small scratch on the lid. I want a replacement unit.",
+    "claimType": "cosmetic_damage",
+    "severity": "low",
+    "status": "denied",
+    "photos": [],
+    "aiDecision": {
+      "recommendedAction": "deny",
+      "confidence": 0.97,
+      "claimType": "Cosmetic Damage",
+      "severity": "low",
+      "reasoning": "Cosmetic damage (scratches, dents, discoloration) is explicitly excluded from all SureBright extended warranty tiers. The policy covers functional failures and structural damage that impair use. This claim does not meet any coverage criteria.",
+      "policyReference": "Section 1.3 — Exclusions: Cosmetic damage including scratches, dents, and discoloration are not covered under any warranty tier.",
+      "redFlags": [
+        "Cosmetic-only claim — explicitly excluded under Section 1.3"
+      ],
+      "decidedAt": "2024-11-16T11:06:22Z"
+    },
+    "humanOverride": null,
+    "auditTrail": [
+      {
+        "timestamp": "2024-11-16T11:05:00Z",
+        "actor": "customer",
+        "action": "Claim Submitted",
+        "details": "Customer submitted cosmetic damage claim for Apple MacBook Pro 14\""
+      },
+      {
+        "timestamp": "2024-11-16T11:06:22Z",
+        "actor": "ai",
+        "action": "AI Classification",
+        "details": "Classified as Cosmetic Damage, Severity: Low, Confidence: 97%"
+      },
+      {
+        "timestamp": "2024-11-16T11:06:23Z",
+        "actor": "ai",
+        "action": "AI Decision: DENY",
+        "details": "Confidence 97%. Cosmetic damage excluded per Section 1.3. 1 red flag."
+      }
+    ]
+  },
+  {
+    "id": "CLM-2024-004",
+    "createdAt": "2024-11-15T16:40:00Z",
+    "customerName": "Meera Patel",
+    "customerEmail": "meera@example.com",
+    "orderNumber": "SB-ORD-54233",
+    "productName": "LG French Door Refrigerator",
+    "productCategory": "Home Appliances",
+    "issueDescription": "Refrigerator suddenly stopped cooling. All food spoiled. It's only 14 months old. Compressor seems to have failed.",
+    "claimType": null,
+    "severity": null,
+    "status": "pending",
+    "photos": [],
+    "aiDecision": null,
+    "humanOverride": null,
+    "auditTrail": [
+      {
+        "timestamp": "2024-11-15T16:40:00Z",
+        "actor": "customer",
+        "action": "Claim Submitted",
+        "details": "Customer submitted claim for LG refrigerator cooling failure"
+      }
+    ]
+  }
+]
