@@ -110,4 +110,4 @@ Add `GEMINI_API_KEY` as an environment variable in Vercel.
 
 ---
 
-_Built by [Your Name] · November 2024 · Portfolio project for SureBright_
+_Built by [Priyan Bhatia] · November 2024 · Portfolio project for SureBright_
