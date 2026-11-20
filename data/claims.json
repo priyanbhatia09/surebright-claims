@@ -1,5 +1,50 @@
 [
   {
+    "customerName": "Live Test Customer",
+    "customerEmail": "livetest@example.com",
+    "orderNumber": "SB-GEMINI-001",
+    "productName": "Bose QuietComfort 45 Headphones",
+    "productCategory": "Electronics",
+    "issueDescription": "I was walking to work during a sudden thunderstorm when lightning struck a nearby utility pole. Right after that, my charging station sparked, and now the headphones will not power on or take any charge.",
+    "photos": [],
+    "id": "CLM-2024-007",
+    "createdAt": "2026-11-20T11:00:16.743Z",
+    "claimType": "power_surge",
+    "severity": "high",
+    "status": "approved",
+    "aiDecision": {
+      "claimType": "power_surge",
+      "severity": "high",
+      "recommendedAction": "approve",
+      "confidence": 0.84,
+      "reasoning": "Power surge damage from electrical events is a covered peril under Section 5.1. The described circumstances are consistent with surge damage. Approving subject to claim documentation.",
+      "policyReference": "Section 5.1 — Power Surge: Damage from electrical surges or lightning events is fully covered.",
+      "redFlags": [],
+      "decidedAt": "2026-11-20T11:00:17.520Z"
+    },
+    "humanOverride": null,
+    "auditTrail": [
+      {
+        "timestamp": "2026-11-20T11:00:16.743Z",
+        "actor": "customer",
+        "action": "Claim Submitted",
+        "details": "Customer submitted claim for Bose QuietComfort 45 Headphones (Electronics)"
+      },
+      {
+        "timestamp": "2026-11-20T11:00:17.520Z",
+        "actor": "ai",
+        "action": "AI Classification",
+        "details": "Classified as power surge, Severity: high, Confidence: 84%"
+      },
+      {
+        "timestamp": "2026-11-20T11:00:17.520Z",
+        "actor": "ai",
+        "action": "AI Decision: APPROVE",
+        "details": "Confidence 84%. Section 5.1 — Power Surge: Damage from electrical surges or lightning events is fully covered.. No red flags."
+      }
+    ]
+  },
+  {
     "customerName": "EKLAVYA RAJPUT",
     "customerEmail": "PRIYANBHATIA0202@GMAIL.COM",
     "orderNumber": "sb-ord-12345",
