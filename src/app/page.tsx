@@ -113,10 +113,16 @@ export default function HomePage() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/admin"
+              href="/coverage"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-[#0558ff] text-[#0558ff] hover:bg-blue-50 font-semibold text-base transition-all"
+            >
+              View Coverage Plans
+            </Link>
+            <Link
+              href="/merchant"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-[#e5e7eb] hover:border-[#fb651e] text-[#151515] hover:text-[#fb651e] font-semibold text-base hover:bg-[#fff7ed]/50 transition-all"
             >
-              View Admin Dashboard
+              Merchant Portal
             </Link>
           </div>
 
@@ -245,10 +251,11 @@ export default function HomePage() {
             </span>
           </div>
           <p className="text-white/40 text-sm">© 2024 SureBright. AI-native warranty platform.</p>
-          <div className="flex gap-4 text-white/40 text-sm">
-            <span className="hover:text-white/70 cursor-pointer transition-colors">Privacy</span>
-            <span className="hover:text-white/70 cursor-pointer transition-colors">Terms</span>
-            <span className="hover:text-white/70 cursor-pointer transition-colors">Contact</span>
+          <div className="flex flex-wrap gap-5 text-white/60 text-sm">
+            <Link href="/coverage" className="hover:text-white transition-colors">Coverage Plans</Link>
+            <Link href="/partners" className="hover:text-white transition-colors">For Partners</Link>
+            <Link href="/merchant" className="hover:text-white transition-colors">Merchant Portal</Link>
+            <Link href="/admin" className="hover:text-white transition-colors">Admin Dashboard</Link>
           </div>
         </div>
       </footer>
