@@ -102,20 +102,20 @@ export default function NewClaimPage() {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                     i < step
-                      ? "bg-[#0558ff] text-white"
+                      ? "bg-[#16a34a] text-white"
                       : i === step
-                      ? "bg-[#0558ff] text-white ring-4 ring-blue-100"
+                      ? "bg-[#fb651e] text-white ring-4 ring-orange-100"
                       : "bg-[#f0efe7] text-[#9b9b9b]"
                   }`}
                 >
                   {i < step ? "✓" : i + 1}
                 </div>
-                <span className={`text-xs font-medium whitespace-nowrap ${i === step ? "text-[#151515]" : "text-[#9b9b9b]"}`}>
+                <span className={`text-xs font-semibold whitespace-nowrap ${i === step ? "text-[#fb651e]" : i < step ? "text-[#16a34a]" : "text-[#9b9b9b]"}`}>
                   {label}
                 </span>
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`flex-1 h-0.5 mx-2 mb-5 ${i < step ? "bg-[#0558ff]" : "bg-[#e5e7eb]"}`} />
+                <div className={`flex-1 h-0.5 mx-2 mb-5 ${i < step ? "bg-[#16a34a]" : "bg-[#e5e7eb]"}`} />
               )}
             </div>
           ))}
@@ -284,12 +284,12 @@ export default function NewClaimPage() {
                 )}
               </div>
 
-              {/* AI tip */}
-              <div className="bg-[#eff4ff] rounded-xl p-4 text-sm text-[#0558ff] flex gap-3">
+              {/* AI tip (YC warm theme) */}
+              <div className="bg-[#fff7ed] border border-[#fed7aa] rounded-xl p-4 text-sm text-[#9a3412] flex gap-3">
                 <span className="text-lg">🤖</span>
                 <div>
-                  <p className="font-semibold">AI Tip</p>
-                  <p className="text-[#525252] mt-0.5">Our AI will analyze your description and photos against your warranty policy to verify damage patterns and speed up approval.</p>
+                  <p className="font-semibold text-[#c2410c]">AI Tip</p>
+                  <p className="text-[#9a3412] mt-0.5">Our AI will analyze your description and photos against your warranty policy to verify damage patterns and speed up approval.</p>
                 </div>
               </div>
             </div>
@@ -368,7 +368,7 @@ export default function NewClaimPage() {
               <button
                 onClick={() => setStep((s) => s + 1)}
                 disabled={step === 0 ? !isStep0Valid : !isStep1Valid}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0558ff] text-white text-sm font-semibold hover:bg-[#0046d6] disabled:opacity-40 disabled:cursor-not-allowed transition"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#fb651e] hover:bg-[#ea580c] text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition shadow-xs"
               >
                 Continue
                 <ChevronRight className="w-4 h-4" />
@@ -377,7 +377,7 @@ export default function NewClaimPage() {
               <button
                 onClick={submit}
                 disabled={submitting}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0558ff] text-white text-sm font-semibold hover:bg-[#0046d6] disabled:opacity-50 transition"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#fb651e] via-[#ea580c] to-[#0558ff] hover:opacity-95 text-white text-sm font-semibold disabled:opacity-50 transition shadow-sm"
               >
                 {submitting ? (
                   <>

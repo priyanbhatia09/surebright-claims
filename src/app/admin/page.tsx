@@ -43,7 +43,7 @@ export default function AdminDashboard() {
           </div>
           <Link
             href="/claims/new"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0558ff] text-white text-sm font-semibold hover:bg-[#0046d6] transition"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#fb651e] hover:bg-[#ea580c] text-white text-sm font-semibold transition shadow-xs hover:shadow-orange-500/20"
           >
             + New Claim
           </Link>

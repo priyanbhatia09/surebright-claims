@@ -12,14 +12,19 @@ export default function Navbar({ variant = "light" }: { variant?: "light" | "dar
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8006dc] to-[#0558ff] flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+        {/* Logo with YC + SureBright blend */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8006dc] via-[#0558ff] to-[#fb651e] flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
             <Shield className="w-4 h-4 text-white" />
           </div>
-          <span className={`font-bold text-lg tracking-tight ${isLight ? "text-[#151515]" : "text-white"}`}>
-            Sure<span className="text-[#0558ff]">Bright</span>
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className={`font-bold text-lg tracking-tight ${isLight ? "text-[#151515]" : "text-white"}`}>
+              Sure<span className="text-[#0558ff]">Bright</span>
+            </span>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#fb651e] text-white tracking-wider uppercase shadow-xs">
+              YC
+            </span>
+          </div>
         </Link>
 
         {/* Nav Links */}
@@ -44,7 +49,7 @@ export default function Navbar({ variant = "light" }: { variant?: "light" | "dar
           </Link>
           <Link
             href="/claims/new"
-            className="text-sm font-semibold px-5 py-2 rounded-full bg-[#0558ff] text-white hover:bg-[#0046d6] transition-colors shadow-sm"
+            className="text-sm font-semibold px-5 py-2 rounded-full bg-[#fb651e] hover:bg-[#ea580c] text-white transition-all shadow-sm hover:shadow-orange-500/20"
           >
             File a Claim
           </Link>
