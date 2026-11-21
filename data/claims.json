@@ -105,7 +105,7 @@
     "createdAt": "2026-11-20T05:11:41.427Z",
     "claimType": "unknown",
     "severity": "medium",
-    "status": "escalated",
+    "status": "approved",
     "aiDecision": {
       "claimType": "unknown",
       "severity": "medium",
@@ -119,7 +119,12 @@
       ],
       "decidedAt": "2026-11-20T05:11:42.639Z"
     },
-    "humanOverride": null,
+    "humanOverride": {
+      "action": "approve",
+      "reason": "approved",
+      "overriddenBy": "Claims Specialist",
+      "overriddenAt": "2026-11-21T13:57:24.230Z"
+    },
     "auditTrail": [
       {
         "timestamp": "2026-11-20T05:11:41.427Z",
@@ -138,6 +143,42 @@
         "actor": "ai",
         "action": "AI Decision: ESCALATE",
         "details": "Confidence 52%. General Policy — Unclear claims require manual review by a certified claims specialist.. 2 red flag(s) detected."
+      },
+      {
+        "timestamp": "2026-11-21T13:55:01.750Z",
+        "actor": "admin",
+        "action": "Human Override: APPROVE",
+        "details": "Senior Claims Adjuster updated status to APPROVE. Reason: \"Reviewed and approved under Accidental Hardware Warranty Section 3.2. Free express repair replacement issued.\""
+      },
+      {
+        "timestamp": "2026-11-21T13:55:01.750Z",
+        "actor": "system",
+        "action": "Email Notification Sent",
+        "details": "Dispatched APPROVED notification email to PRIYANBHATIA0202@GMAIL.COM (Live SMTP)"
+      },
+      {
+        "timestamp": "2026-11-21T13:56:08.621Z",
+        "actor": "admin",
+        "action": "Human Override: APPROVE",
+        "details": "Senior Claims Specialist updated status to APPROVE. Reason: \"Accidental hardware damage verified under Section 3.2. Approved for full warranty replacement.\""
+      },
+      {
+        "timestamp": "2026-11-21T13:56:08.621Z",
+        "actor": "system",
+        "action": "Email Notification Sent",
+        "details": "Dispatched APPROVED notification email to PRIYANBHATIA0202@GMAIL.COM (Live SMTP)"
+      },
+      {
+        "timestamp": "2026-11-21T13:57:24.230Z",
+        "actor": "admin",
+        "action": "Human Override: APPROVE",
+        "details": "Claims Specialist updated status to APPROVE. Reason: \"approved\""
+      },
+      {
+        "timestamp": "2026-11-21T13:57:24.230Z",
+        "actor": "system",
+        "action": "Email Notification Sent",
+        "details": "Dispatched APPROVED notification email to PRIYANBHATIA0202@GMAIL.COM (Live SMTP)"
       }
     ]
   },

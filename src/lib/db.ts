@@ -44,8 +44,6 @@ export interface AuditEntry {
   details: string;
 }
 
-const DATA_FILE = path.join(process.cwd(), "data", "claims.json");
-
 const SEED_CLAIMS: Claim[] = [
   {
     id: "CLM-2024-001",
@@ -62,19 +60,19 @@ const SEED_CLAIMS: Claim[] = [
     photos: [],
     aiDecision: {
       recommendedAction: "approve",
-      confidence: 0.91,
-      claimType: "Shipping Damage",
+      confidence: 0.94,
+      claimType: "shipping_damage",
       severity: "high",
-      reasoning: "Customer describes crack appearing post-delivery without physical impact. This pattern is consistent with internal shipping stress fractures common in large-panel displays. No red flags for intentional damage detected. Product is within 30-day shipping protection window.",
-      policyReference: "Section 3.2 — Shipping Damage Coverage: Structural damage occurring within 30 days of delivery qualifies for replacement.",
+      reasoning: "Shipping damage reported within 48 hours of delivery. Screen crack matches impact patterns from transit handling. Full replacement approved under Section 4.1.",
+      policyReference: "Section 4.1 — Transit Damage Protection",
       redFlags: [],
-      decidedAt: "2024-11-18T09:35:12Z",
+      decidedAt: "2024-11-18T09:30:14Z",
     },
     humanOverride: null,
     auditTrail: [
-      { timestamp: "2024-11-18T09:30:00Z", actor: "customer", action: "Claim Submitted", details: "Customer submitted shipping damage claim for Samsung 65\" QLED TV" },
-      { timestamp: "2024-11-18T09:35:12Z", actor: "ai", action: "AI Classification", details: "Classified as Shipping Damage, Severity: High, Confidence: 91%" },
-      { timestamp: "2024-11-18T09:35:14Z", actor: "ai", action: "AI Decision: APPROVE", details: "Confidence 91%. Policy: Section 3.2 Shipping Damage Coverage. No red flags." },
+      { timestamp: "2024-11-18T09:30:00Z", actor: "customer", action: "Claim Submitted", details: "Customer submitted claim for Samsung 65\" QLED TV" },
+      { timestamp: "2024-11-18T09:30:14Z", actor: "ai", action: "AI Classification", details: "Classified as shipping damage, Severity: High, Confidence: 94%" },
+      { timestamp: "2024-11-18T09:30:14Z", actor: "ai", action: "AI Decision: APPROVED", details: "Confidence 94%. Section 4.1 — Transit Damage Protection. No red flags." },
     ],
   },
   {
@@ -85,26 +83,26 @@ const SEED_CLAIMS: Claim[] = [
     orderNumber: "SB-ORD-77432",
     productName: "Dyson V15 Detect Vacuum",
     productCategory: "Home Appliances",
-    issueDescription: "Vacuum stopped working completely after 8 months of normal use. No suction at all. Tried resetting and cleaning filter multiple times. Nothing works.",
-    claimType: "functional_failure",
-    severity: "medium",
-    status: "escalated",
+    issueDescription: "Motor started smoking after 3 weeks of normal use. Smells like burnt plastic. Device no longer powers on at all.",
+    claimType: "defective_part",
+    severity: "high",
+    status: "approved",
     photos: [],
     aiDecision: {
-      recommendedAction: "escalate",
-      confidence: 0.62,
-      claimType: "Functional Failure",
-      severity: "medium",
-      reasoning: "Motor failure at 8 months is within extended warranty window. However, the claim lacks photographic evidence and the issue could indicate filter blockage (not covered) rather than motor failure (covered). Confidence below 70% threshold — escalating to human review.",
-      policyReference: "Section 2.2 — Mechanical Failure: Motor and electrical failures covered after manufacturer warranty expiry. Requires diagnostic confirmation.",
-      redFlags: ["No photographic evidence provided", "Issue could be user-serviceable filter blockage"],
-      decidedAt: "2024-11-17T14:24:33Z",
+      recommendedAction: "approve",
+      confidence: 0.96,
+      claimType: "defective_part",
+      severity: "high",
+      reasoning: "Electrical motor failure within 30 days of purchase is fully covered under manufacturer defect warranty. Fast replacement approved.",
+      policyReference: "Section 2.1 — Hardware Defect Warranty",
+      redFlags: [],
+      decidedAt: "2024-11-17T14:20:08Z",
     },
     humanOverride: null,
     auditTrail: [
-      { timestamp: "2024-11-17T14:20:00Z", actor: "customer", action: "Claim Submitted", details: "Customer submitted functional failure claim for Dyson V15 Detect" },
-      { timestamp: "2024-11-17T14:24:33Z", actor: "ai", action: "AI Classification", details: "Classified as Functional Failure, Severity: Medium, Confidence: 62%" },
-      { timestamp: "2024-11-17T14:24:35Z", actor: "ai", action: "AI Decision: ESCALATE", details: "Confidence 62% — below 70% threshold. Escalating for human review due to 2 red flags." },
+      { timestamp: "2024-11-17T14:20:00Z", actor: "customer", action: "Claim Submitted", details: "Customer submitted claim for Dyson V15 Vacuum" },
+      { timestamp: "2024-11-17T14:20:08Z", actor: "ai", action: "AI Classification", details: "Classified as defective part, Severity: High, Confidence: 96%" },
+      { timestamp: "2024-11-17T14:20:08Z", actor: "ai", action: "AI Decision: APPROVED", details: "Confidence 96%. Section 2.1 — Hardware Defect Warranty. No red flags." },
     ],
   },
   {
@@ -113,35 +111,35 @@ const SEED_CLAIMS: Claim[] = [
     customerName: "Rahul Mehta",
     customerEmail: "rahul@example.com",
     orderNumber: "SB-ORD-65109",
-    productName: "Apple MacBook Pro 14\"",
-    productCategory: "Electronics",
-    issueDescription: "Small scratch on the lid. I want a replacement unit.",
-    claimType: "cosmetic_damage",
-    severity: "low",
+    productName: "Sony WH-1000XM5 Headphones",
+    productCategory: "Audio",
+    issueDescription: "Accidentally dropped them in a puddle while running in the rain. Left ear cup completely stopped working and has crackling sound.",
+    claimType: "liquid_damage",
+    severity: "medium",
     status: "denied",
     photos: [],
     aiDecision: {
       recommendedAction: "deny",
-      confidence: 0.97,
-      claimType: "Cosmetic Damage",
-      severity: "low",
-      reasoning: "Cosmetic damage (scratches, dents, discoloration) is explicitly excluded from all SureBright extended warranty tiers. The policy covers functional failures and structural damage that impair use. This claim does not meet any coverage criteria.",
-      policyReference: "Section 1.3 — Exclusions: Cosmetic damage including scratches, dents, and discoloration are not covered under any warranty tier.",
-      redFlags: ["Cosmetic-only claim — explicitly excluded under Section 1.3"],
-      decidedAt: "2024-11-16T11:06:22Z",
+      confidence: 0.89,
+      claimType: "liquid_damage",
+      severity: "medium",
+      reasoning: "Standard warranty explicitly excludes water/liquid immersion. Customer chose standard plan without accidental damage protection (Care+).",
+      policyReference: "Section 7.3 — Exclusions: Liquid Damage",
+      redFlags: ["Customer admits puddle submersion", "Standard warranty tier does not cover liquid damage"],
+      decidedAt: "2024-11-16T11:05:12Z",
     },
     humanOverride: null,
     auditTrail: [
-      { timestamp: "2024-11-16T11:05:00Z", actor: "customer", action: "Claim Submitted", details: "Customer submitted cosmetic damage claim for Apple MacBook Pro 14\"" },
-      { timestamp: "2024-11-16T11:06:22Z", actor: "ai", action: "AI Classification", details: "Classified as Cosmetic Damage, Severity: Low, Confidence: 97%" },
-      { timestamp: "2024-11-16T11:06:23Z", actor: "ai", action: "AI Decision: DENY", details: "Confidence 97%. Cosmetic damage excluded per Section 1.3. 1 red flag." },
+      { timestamp: "2024-11-16T11:05:00Z", actor: "customer", action: "Claim Submitted", details: "Customer submitted claim for Sony WH-1000XM5" },
+      { timestamp: "2024-11-16T11:05:12Z", actor: "ai", action: "AI Classification", details: "Classified as liquid damage, Severity: Medium, Confidence: 89%" },
+      { timestamp: "2024-11-16T11:05:12Z", actor: "ai", action: "AI Decision: DENIED", details: "Confidence 89%. Section 7.3 — Exclusions: Liquid Damage. 2 red flags detected." },
     ],
   },
   {
     id: "CLM-2024-004",
     createdAt: "2024-11-15T16:40:00Z",
-    customerName: "Meera Patel",
-    customerEmail: "meera@example.com",
+    customerName: "Ananya Iyer",
+    customerEmail: "ananya@example.com",
     orderNumber: "SB-ORD-54233",
     productName: "LG French Door Refrigerator",
     productCategory: "Home Appliances",
@@ -158,28 +156,97 @@ const SEED_CLAIMS: Claim[] = [
   },
 ];
 
-function readClaims(): Claim[] {
+/**
+ * Returns a writable file path that works both locally and on AWS Lambda / Amplify / Serverless
+ */
+function getDataFilePath(): string {
+  // Check if running on AWS Lambda or Serverless environment
+  const isServerless = Boolean(
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.AWS_EXECUTION_ENV ||
+    process.env.VERCEL
+  );
+
+  if (isServerless) {
+    const tmpDir = path.join("/tmp", "surebright");
+    try {
+      if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
+    } catch {}
+    return path.join(tmpDir, "claims.json");
+  }
+
+  // Local filesystem
+  const localDir = path.join(process.cwd(), "data");
   try {
-    if (!fs.existsSync(DATA_FILE)) {
-      fs.writeFileSync(DATA_FILE, JSON.stringify(SEED_CLAIMS, null, 2), "utf-8");
-      return SEED_CLAIMS;
-    }
-    const data = fs.readFileSync(DATA_FILE, "utf-8");
-    return JSON.parse(data) as Claim[];
+    if (!fs.existsSync(localDir)) fs.mkdirSync(localDir, { recursive: true });
+    fs.accessSync(localDir, fs.constants.W_OK);
+    return path.join(localDir, "claims.json");
   } catch {
+    // Fallback to /tmp if local directory is read-only
+    const tmpDir = path.join("/tmp", "surebright");
+    try {
+      if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
+    } catch {}
+    return path.join(tmpDir, "claims.json");
+  }
+}
+
+// In-memory global store to share across warm serverless requests
+declare global {
+  var __SUREBRIGHT_CLAIMS__: Claim[] | undefined;
+}
+
+function readClaims(): Claim[] {
+  if (globalThis.__SUREBRIGHT_CLAIMS__ && globalThis.__SUREBRIGHT_CLAIMS__.length > 0) {
+    return globalThis.__SUREBRIGHT_CLAIMS__;
+  }
+
+  const filePath = getDataFilePath();
+  try {
+    if (fs.existsSync(filePath)) {
+      const data = fs.readFileSync(filePath, "utf-8");
+      const parsed = JSON.parse(data) as Claim[];
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        globalThis.__SUREBRIGHT_CLAIMS__ = parsed;
+        return parsed;
+      }
+    }
+
+    // Try reading bundled data/claims.json if available
+    const bundledPath = path.join(process.cwd(), "data", "claims.json");
+    if (fs.existsSync(bundledPath)) {
+      try {
+        const bundledData = fs.readFileSync(bundledPath, "utf-8");
+        const parsedBundled = JSON.parse(bundledData) as Claim[];
+        if (Array.isArray(parsedBundled) && parsedBundled.length > 0) {
+          globalThis.__SUREBRIGHT_CLAIMS__ = parsedBundled;
+          writeClaims(parsedBundled);
+          return parsedBundled;
+        }
+      } catch {}
+    }
+
+    globalThis.__SUREBRIGHT_CLAIMS__ = SEED_CLAIMS;
+    writeClaims(SEED_CLAIMS);
+    return SEED_CLAIMS;
+  } catch (err) {
+    console.error("Error reading claims:", err);
+    globalThis.__SUREBRIGHT_CLAIMS__ = SEED_CLAIMS;
     return SEED_CLAIMS;
   }
 }
 
 function writeClaims(claims: Claim[]): void {
+  globalThis.__SUREBRIGHT_CLAIMS__ = claims;
   try {
-    const dir = path.dirname(DATA_FILE);
+    const filePath = getDataFilePath();
+    const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    fs.writeFileSync(DATA_FILE, JSON.stringify(claims, null, 2), "utf-8");
+    fs.writeFileSync(filePath, JSON.stringify(claims, null, 2), "utf-8");
   } catch (err) {
-    console.error("Error writing claims:", err);
+    console.warn("Could not write claims to disk (relying on memory cache):", err);
   }
 }
 
@@ -190,7 +257,8 @@ export function getAllClaims(): Claim[] {
 
 export function getClaimById(id: string): Claim | undefined {
   const claims = readClaims();
-  return claims.find((c) => c.id.toLowerCase() === id.toLowerCase());
+  const cleanId = id.trim().toLowerCase();
+  return claims.find((c) => c.id.toLowerCase() === cleanId);
 }
 
 export function createClaim(data: Omit<Claim, "id" | "createdAt" | "aiDecision" | "humanOverride" | "auditTrail" | "claimType" | "severity" | "status">): Claim {

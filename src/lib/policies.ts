@@ -17,8 +17,6 @@ export interface Policy {
   status: "active" | "expired" | "claim_filed";
 }
 
-const POLICIES_FILE = path.join(process.cwd(), "data", "policies.json");
-
 const SEED_POLICIES: Policy[] = [
   {
     id: "POL-2024-0891",
@@ -112,28 +110,86 @@ const SEED_POLICIES: Policy[] = [
   },
 ];
 
-function readPolicies(): Policy[] {
+function getPolicyFilePath(): string {
+  const isServerless = Boolean(
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.AWS_EXECUTION_ENV ||
+    process.env.VERCEL
+  );
+
+  if (isServerless) {
+    const tmpDir = path.join("/tmp", "surebright");
+    try {
+      if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
+    } catch {}
+    return path.join(tmpDir, "policies.json");
+  }
+
+  const localDir = path.join(process.cwd(), "data");
   try {
-    if (!fs.existsSync(POLICIES_FILE)) {
-      const dir = path.dirname(POLICIES_FILE);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(POLICIES_FILE, JSON.stringify(SEED_POLICIES, null, 2), "utf-8");
-      return SEED_POLICIES;
-    }
-    const data = fs.readFileSync(POLICIES_FILE, "utf-8");
-    return JSON.parse(data) as Policy[];
+    if (!fs.existsSync(localDir)) fs.mkdirSync(localDir, { recursive: true });
+    fs.accessSync(localDir, fs.constants.W_OK);
+    return path.join(localDir, "policies.json");
   } catch {
+    const tmpDir = path.join("/tmp", "surebright");
+    try {
+      if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
+    } catch {}
+    return path.join(tmpDir, "policies.json");
+  }
+}
+
+declare global {
+  var __SUREBRIGHT_POLICIES__: Policy[] | undefined;
+}
+
+function readPolicies(): Policy[] {
+  if (globalThis.__SUREBRIGHT_POLICIES__ && globalThis.__SUREBRIGHT_POLICIES__.length > 0) {
+    return globalThis.__SUREBRIGHT_POLICIES__;
+  }
+
+  const filePath = getPolicyFilePath();
+  try {
+    if (fs.existsSync(filePath)) {
+      const data = fs.readFileSync(filePath, "utf-8");
+      const parsed = JSON.parse(data) as Policy[];
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        globalThis.__SUREBRIGHT_POLICIES__ = parsed;
+        return parsed;
+      }
+    }
+
+    const bundledPath = path.join(process.cwd(), "data", "policies.json");
+    if (fs.existsSync(bundledPath)) {
+      try {
+        const bundledData = fs.readFileSync(bundledPath, "utf-8");
+        const parsed = JSON.parse(bundledData) as Policy[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          globalThis.__SUREBRIGHT_POLICIES__ = parsed;
+          writePolicies(parsed);
+          return parsed;
+        }
+      } catch {}
+    }
+
+    globalThis.__SUREBRIGHT_POLICIES__ = SEED_POLICIES;
+    writePolicies(SEED_POLICIES);
+    return SEED_POLICIES;
+  } catch {
+    globalThis.__SUREBRIGHT_POLICIES__ = SEED_POLICIES;
     return SEED_POLICIES;
   }
 }
 
 function writePolicies(policies: Policy[]): void {
+  globalThis.__SUREBRIGHT_POLICIES__ = policies;
   try {
-    const dir = path.dirname(POLICIES_FILE);
+    const filePath = getPolicyFilePath();
+    const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(POLICIES_FILE, JSON.stringify(policies, null, 2), "utf-8");
+    fs.writeFileSync(filePath, JSON.stringify(policies, null, 2), "utf-8");
   } catch (err) {
-    console.error("Error writing policies:", err);
+    console.warn("Could not write policies to disk (relying on memory cache):", err);
   }
 }
 
@@ -147,7 +203,6 @@ export function createPolicy(data: Omit<Policy, "id" | "purchaseDate" | "expiryD
   const id = `POL-2024-${String(policies.length + 101).padStart(4, "0")}`;
   const now = new Date();
   
-  // Calculate expiration based on tier
   const expiry = new Date(now);
   if (data.planTier === "shipping") {
     expiry.setDate(expiry.getDate() + 30);
