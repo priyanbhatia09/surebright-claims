@@ -39,7 +39,7 @@ export interface HumanOverride {
 
 export interface AuditEntry {
   timestamp: string;
-  actor: "customer" | "ai" | "admin";
+  actor: "customer" | "ai" | "admin" | "system";
   action: string;
   details: string;
 }

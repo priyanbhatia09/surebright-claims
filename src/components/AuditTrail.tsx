@@ -2,12 +2,13 @@
 
 import { AuditEntry } from "@/lib/db";
 import { formatDateTime } from "@/lib/date";
-import { User, Bot, Shield, Clock } from "lucide-react";
+import { User, Bot, Shield, Clock, Mail } from "lucide-react";
 
 const ACTOR_CONFIG = {
   customer: { icon: User, label: "Customer", color: "text-[#0558ff]", bg: "bg-[#eff4ff]" },
   ai: { icon: Bot, label: "AI", color: "text-[#8006dc]", bg: "bg-purple-50" },
   admin: { icon: Shield, label: "Admin", color: "text-[#d97706]", bg: "bg-amber-50" },
+  system: { icon: Mail, label: "System Notification", color: "text-emerald-600", bg: "bg-emerald-50" },
 };
 
 export default function AuditTrail({ entries }: { entries: AuditEntry[] }) {
